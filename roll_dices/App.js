@@ -1,8 +1,9 @@
 import React from 'react';
-import { Text } from 'react-native';
+
+import HomeScreen from './src/screen/HomeScreen';
 
 function App() {
-    return <Text>Roll Dices App - test</Text>;
+    return <HomeScreen />;
 }
 
 export default App;
