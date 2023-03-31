@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { rollsReducer, rollDices, clearRolls } from './slices/rollsSlice';
-import { dicesReducer, setDiceSides, setDicesNumber } from './slices/dicesSlice';
+import { dicesReducer, setDiceSides, setDicesNumber, setSelected } from './slices/dicesSlice';
 
 const store = configureStore({
     reducer: {
@@ -10,4 +10,4 @@ const store = configureStore({
     }
 });
 
-export { store, rollDices, clearRolls, setDiceSides, setDicesNumber };
+export { store, rollDices, clearRolls, setDiceSides, setDicesNumber, setSelected };
