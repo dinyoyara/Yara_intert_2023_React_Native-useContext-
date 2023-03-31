@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     dices_container: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        alignSelf: 'center',
         justifyContent: 'space-around'
     }
 });

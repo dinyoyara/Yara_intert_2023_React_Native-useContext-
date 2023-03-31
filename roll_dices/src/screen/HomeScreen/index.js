@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '../../components/Button';
 import Dice from '../../components/Dice';
-import { rollDices, clearRolls } from '../../store';
+import Form from '../../components/Form';
+import { rollDices, clearRolls, setSelected } from '../../store';
 
 import styles from './styles';
 
@@ -22,6 +23,7 @@ const HomeScreen = () => {
     const getRandomNumber = (diceSides) => {
         return Math.floor(1 + Math.random() * diceSides);
     };
+
     const getDicesResultArray = (dicesNumber, diceSides) => {
         const arr = [];
         for (let i = 0; i < dicesNumber; i++) {
@@ -29,6 +31,7 @@ const HomeScreen = () => {
         }
         return arr;
     };
+
     const getBestResult = (rollsInfo) => {
         let result = 0;
         rollsInfo.forEach((x) => {
@@ -36,6 +39,7 @@ const HomeScreen = () => {
         });
         return result;
     };
+
     const getArraySum = (arr) => {
         return arr.reduce((x, y) => x + y, 0);
     };
@@ -46,6 +50,7 @@ const HomeScreen = () => {
 
     const restartGame = () => {
         dispatch(clearRolls());
+        dispatch(setSelected(false));
     };
 
     const dicesIndexArray = [];
@@ -64,7 +69,9 @@ const HomeScreen = () => {
                         {dices.diceSides * dices.dicesNumber}
                     </Text>
                 ) : null}
+                {!dices.selected ? <Form /> : null}
             </View>
+
             <View style={styles.dices_container}>
                 {dicesIndexArray.map((x) => (
                     <Dice key={x} number={rolls.length > 0 ? rolls[rolls.length - 1][x] : dices.diceSides} />
