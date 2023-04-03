@@ -4,17 +4,13 @@ const DiceContext = createContext();
 
 const DiceProvider = ({ children }) => {
     const [dice, setDice] = useState({
-        dicesCount: 4,
+        diceCount: 4,
         diceSidesCount: 6,
         selected: false
     });
 
-    const setDicesCount = (dicesCount) => {
-        setDice({ ...dice, dicesCount: dicesCount });
-    };
-
-    const setDiceSidesCount = (diceSidesCount) => {
-        setDice({ ...dice, diceSidesCount: diceSidesCount });
+    const setDiceParams = (diceCount, diceSidesCount, selected) => {
+        setDice({ diceCount, diceSidesCount, selected });
     };
 
     const setSelected = (selected) => {
@@ -23,8 +19,7 @@ const DiceProvider = ({ children }) => {
 
     const contextValue = {
         dice,
-        setDicesCount,
-        setDiceSidesCount,
+        setDiceParams,
         setSelected
     };
 

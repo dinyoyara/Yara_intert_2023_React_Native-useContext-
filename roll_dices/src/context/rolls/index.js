@@ -5,7 +5,7 @@ const RollsContext = createContext();
 const RollsProvider = ({ children }) => {
     const [rolls, setRolls] = useState([]);
 
-    const rollDices = (currentRoll) => {
+    const rollDice = (currentRoll) => {
         setRolls([...rolls, currentRoll]);
     };
 
@@ -15,7 +15,7 @@ const RollsProvider = ({ children }) => {
 
     const contextValue = {
         rolls,
-        rollDices,
+        rollDice,
         clearRolls
     };
 
