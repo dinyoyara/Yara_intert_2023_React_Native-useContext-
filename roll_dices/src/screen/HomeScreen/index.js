@@ -1,63 +1,29 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '../../components/Button';
 import Dice from '../../components/Dice';
 import Form from '../../components/Form';
-import { rollDices, clearRolls, setSelected } from '../../store';
+import { getArraySum, getBestResult, getDicesIndexArray, getDicesResultArray } from './helpers';
+import useRollsContext from '../../context/rolls/hook';
+import useDiceContext from '../../context/dice/hook';
 
 import styles from './styles';
 
 const HomeScreen = () => {
-    const dispatch = useDispatch();
-    const rolls = useSelector((state) => {
-        console.log(state.rolls);
-        return state.rolls;
-    });
-    const dices = useSelector((state) => {
-        console.log(state.dices);
-        return state.dices;
-    });
-
-    const getRandomNumber = (diceSides) => {
-        return Math.floor(1 + Math.random() * diceSides);
-    };
-
-    const getDicesResultArray = (dicesNumber, diceSides) => {
-        const arr = [];
-        for (let i = 0; i < dicesNumber; i++) {
-            arr.push(getRandomNumber(diceSides));
-        }
-        return arr;
-    };
-
-    const getBestResult = (rollsInfo) => {
-        let result = 0;
-        rollsInfo.forEach((x) => {
-            result = getArraySum(x) > result ? getArraySum(x) : result;
-        });
-        return result;
-    };
-
-    const getArraySum = (arr) => {
-        return arr.reduce((x, y) => x + y, 0);
-    };
+    const { rolls, rollDices, clearRolls } = useRollsContext();
+    console.log(rolls);
+    const { dice, setSelected } = useDiceContext();
+    console.log(dice);
+    const { dicesCount, diceSidesCount, selected } = dice;
 
     const roll = () => {
-        dispatch(rollDices(getDicesResultArray(dices.dicesNumber, dices.diceSides)));
+        rollDices(getDicesResultArray(dicesCount, diceSidesCount));
     };
-
     const restartGame = () => {
-        dispatch(clearRolls());
-        dispatch(setSelected(false));
+        clearRolls();
+        setSelected(false);
     };
-
-    const dicesIndexArray = [];
-
-    for (let i = 0; i < dices.dicesNumber; i++) {
-        dicesIndexArray.push(i);
-    }
 
     return (
         <View style={styles.container}>
@@ -65,16 +31,15 @@ const HomeScreen = () => {
                 <Text style={styles.title}>Roll Dices App</Text>
                 {rolls.length > 0 ? (
                     <Text style={styles.title}>
-                        {rolls.length} rolls - best shot result : {getBestResult(rolls)} /
-                        {dices.diceSides * dices.dicesNumber}
+                        {rolls.length} rolls - best shot result : {getBestResult(rolls)} /{diceSidesCount * dicesCount}
                     </Text>
                 ) : null}
-                {!dices.selected ? <Form /> : null}
+                {!selected ? <Form /> : null}
             </View>
 
             <View style={styles.dices_container}>
-                {dicesIndexArray.map((x) => (
-                    <Dice key={x} number={rolls.length > 0 ? rolls[rolls.length - 1][x] : dices.diceSides} />
+                {getDicesIndexArray(dicesCount).map((x) => (
+                    <Dice key={x} number={rolls.length > 0 ? rolls[rolls.length - 1][x] : diceSidesCount} />
                 ))}
             </View>
             <View>

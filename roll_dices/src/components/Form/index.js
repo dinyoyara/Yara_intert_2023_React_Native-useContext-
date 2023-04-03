@@ -1,36 +1,35 @@
 import React, { useState } from 'react';
 import { TextInput, Text } from 'react-native';
-import { useDispatch } from 'react-redux';
 
 import Button from '../Button';
-import { setDicesNumber, setDiceSides, setSelected } from '../../store';
+import useDiceContext from '../../context/dice/hook';
 
 const Form = () => {
-    const [number, setNumber] = useState(4);
-    const [type, setType] = useState(6);
+    const [dices, setDices] = useState(4);
+    const [sides, setSides] = useState(6);
 
-    const dispatch = useDispatch();
+    const { setDicesCount, setDiceSidesCount, setSelected } = useDiceContext();
 
-    const changeDicesNumber = (e) => {
-        setNumber(e);
+    const changeDicesCount = (e) => {
+        setDices(e);
     };
 
-    const changeDiceType = (e) => {
-        setType(e);
+    const changeSidesCount = (e) => {
+        setSides(e);
     };
 
     const formSubmit = () => {
-        dispatch(setDiceSides(type));
-        dispatch(setDicesNumber(number));
-        dispatch(setSelected(true));
+        setDicesCount(dices);
+        setDiceSidesCount(sides);
+        setSelected(true);
     };
 
     return (
         <>
-            <Text>Number:</Text>
-            <TextInput keyboardType='numeric' onChangeText={changeDicesNumber} value={number} placeholder='4' />
-            <Text>Type:</Text>
-            <TextInput keyboardType='numeric' onChangeText={changeDiceType} value={type} placeholder='6' />
+            <Text>Dices count:</Text>
+            <TextInput keyboardType='numeric' onChangeText={changeDicesCount} value={dices} placeholder='4' />
+            <Text>Dice sides count:</Text>
+            <TextInput keyboardType='numeric' onChangeText={changeSidesCount} value={sides} placeholder='6' />
             <Button title='Submit' click={formSubmit} />
         </>
     );
